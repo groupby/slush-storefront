@@ -1,5 +1,7 @@
 # Slush StoreFront
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/groupby/slush-storefront.svg)](https://greenkeeper.io/)
+
 [![npm](https://img.shields.io/npm/v/slush-storefront.svg?style=flat-square)](https://www.npmjs.com/package/slush-storefront)
 [![build](https://img.shields.io/circleci/project/github/groupby/slush-storefront/master.svg?label=linux&style=flat-square)](https://circleci.com/gh/groupby/slush-storefront)
 [![deps](https://david-dm.org/groupby/slush-storefront.svg?style=flat-square)](https://david-dm.org/groupby/slush-storefront)
