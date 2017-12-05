@@ -11,6 +11,7 @@ module.exports = {
   devtool: 'source-map',
 
   output: {
+    filename: 'storefront-[hash].js',
     path: path.resolve('bundle')
   },
 

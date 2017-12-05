@@ -1,5 +1,13 @@
 {
   "presets": [
-    "env"
-  ]
+    ["env", {
+      "targets": {
+        "browsers": [
+          "> 5%",
+          "not ie < 11"
+        ],
+        "uglify": true
+      }
+    }]
+  ],
 }
