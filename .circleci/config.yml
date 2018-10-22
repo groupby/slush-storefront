@@ -1,0 +1,50 @@
+defaults:
+  node_cache: &node_cache
+    key: node_cache-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run: yarn
+  test:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run: yarn
+      - run: yarn start lint
+      - save_cache:
+          <<: *node_cache
+          paths:
+            - ~/.cache/yarn
+  release:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *node_cache
+      - run: yarn
+      - run: yarn start release || true
+
+workflows:
+  version: 2
+
+  build_test_release:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - release:
+          context: org-global
+          filters:
+            branches:
+              only: master
+          requires:
+            - test
