@@ -1,6 +1,6 @@
 defaults:
-  node_cache: &node_cache
-    key: node_cache-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+  yarn_cache: &yarn_cache
+    key: yarn_cache-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
 version: 2
 
@@ -19,7 +19,7 @@ jobs:
       - run: yarn
       - run: yarn start lint
       - save_cache:
-          <<: *node_cache
+          <<: *yarn_cache
           paths:
             - ~/.cache/yarn
   release:
@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          <<: *node_cache
+          <<: *yarn_cache
       - run: yarn
       - run: yarn start release || true
 
