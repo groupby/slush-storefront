@@ -28,7 +28,9 @@
   },
   "scripts": {
     "start": "start-runner -p re-start/presets/es5",
-    "prepush": "yarn start prepush"
+    "prepush": "yarn start prepush",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "release": {
     "verifyConditions": "condition-circle"
@@ -43,15 +45,16 @@
     }
   },
   "dependencies": {
-    "gulp": "^3.6.2",
+    "gulp": "^3.9.1",
     "gulp-conflict": "^0.4.0",
     "gulp-install": "^1.1.0",
     "gulp-rename": "^1.2.0",
     "gulp-template": "^4.0.0",
     "iniparser": "^1.0.5",
-    "inquirer": "^3.0.0",
+    "inquirer": "^3.0.1",
     "slush": ">=1.0.0",
-    "underscore.string": "^3.3.4"
+    "underscore.string": "^3.3.5",
+    "snyk": "^1.114.0"
   },
   "devDependencies": {
     "condition-circle": "^1.5.0",
@@ -60,5 +63,6 @@
     "eslint-config-tough": "^0.4.0",
     "re-start": "^1.8.6",
     "start-simple-cli": "^4.1.1"
-  }
+  },
+  "snyk": true
 }
