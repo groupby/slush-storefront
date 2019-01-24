@@ -4,7 +4,8 @@
   "description": "Advanced StoreFront implementation",
   "scripts": {
     "start": "webpack-dev-server --watch",
-    "build": "webpack -p --progress"
+    "build": "webpack -p --progress",
+    "test": "mocha ./test/**/*.test.js"
   },
   "author": "",
   "license": "MIT",
@@ -15,12 +16,15 @@
     "babel-preset-env": "^1.4.0",
     "browser-sync": "^2.18.13",
     "browser-sync-webpack-plugin": "^1.2.0",
+    "chai": "^4.2.0",
     "css-loader": "^0.28.7",
     "html-loader": "^0.4.5",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.5.0",
+    "mocha": "^5.2.0",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
+    "sinon": "^7.2.3",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",
     "to-string-loader": "^1.1.5",
