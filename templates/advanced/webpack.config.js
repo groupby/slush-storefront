@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const path = require('path');
@@ -17,7 +17,7 @@ module.exports = {
 
   plugins: [
     new HTMLPlugin({ template: indexHtml }),
-    new ExtractTextPlugin('styles.css'),
+    new MiniCssExtractPlugin({ filename: 'styles.css' }),
     new BrowserSyncPlugin({
         host: 'localhost',
         port: 6400,
@@ -55,13 +55,11 @@ module.exports = {
       ]
     }, {
       test: /\.scss$/,
-      use: ExtractTextPlugin.extract({
-        use: [
-          'css-loader',
-          'sass-loader'
-        ],
-        fallback: 'style-loader'
-      })
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        'sass-loader'
+      ]
     }]
   },
 
