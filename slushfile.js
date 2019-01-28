@@ -8,6 +8,7 @@
 
 /* eslint-disable no-var,prefer-arrow-callback,array-bracket-spacing,no-magic-numbers,prefer-template,immutable/no-mutation,object-shorthand */
 
+var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
 var conflict = require('gulp-conflict');
@@ -16,6 +17,97 @@ var rename = require('gulp-rename');
 var install = require('gulp-install');
 var _ = require('underscore.string');
 var inquirer = require('inquirer');
+var mergeStream = require('merge-stream');
+var utils = require('./utils');
+
+const INTERPOLATION_PATTERN = /<%=([\s\S]+?)%>/g;
+
+const interpolate = (data) => template(data, { interpolate: INTERPOLATION_PATTERN });
+
+gulp.task('component', function(done) {
+  var prompts = [
+    {
+      name: 'name',
+      message: 'What is your component called?',
+    },
+    {
+
+      name: 'srcPath',
+      message: 'Provide the path to the directory where the component will be added:',
+      default: 'src/tags/components',
+    },
+    {
+      name: 'testPath',
+      message: 'Provide the path to the directory where the component tests will be added:',
+      default: 'test/unit/tags/components',
+    },
+    {
+      type: 'confirm',
+      name: 'moveon',
+      message: 'Continue?'
+    },
+  ];
+
+  inquirer.prompt(prompts)
+    .then(function(answers) {
+      if (!answers.moveon) {
+        return done();
+      }
+
+      // Handle name.
+      const sanitizedName = answers.name.replace(/\s+/g, '');
+      const slug = utils.pascalToKebab(sanitizedName);
+      answers.slug = slug;
+      answers.sanitizedName = sanitizedName;
+
+      // Handle src path and files.
+      const srcDir = `${answers.srcPath}/${slug}`;
+      if (!fs.existsSync(srcDir)) {
+        fs.mkdirSync(srcDir);
+      }
+      const srcFiles = [
+        `${__dirname}/templates/component/src/index.js`,
+        `${__dirname}/templates/component/src/index.html`,
+        `${__dirname}/templates/component/src/index.scss`,
+      ];
+
+      // Handle test path and files.
+      const testDir = `${answers.testPath}/${slug}`;
+      if (!fs.existsSync(testDir)) {
+        fs.mkdirSync(testDir);
+      }
+      const testFiles = [
+        `${__dirname}/templates/component/test/index.test.js`,
+      ];
+
+      // Compute relative path(s).
+      answers.relativePath = path.relative(testDir, `${srcDir}/${slug}.js`);
+
+      // Define streams, merge, and exit.
+      const srcStream = gulp.src(srcFiles)
+        .pipe(interpolate(answers))
+        .pipe(rename(function(file) {
+          file.basename = slug;
+        }))
+        .pipe(gulp.dest(path.resolve(srcDir)));
+
+      const testStream = gulp.src(testFiles)
+        .pipe(interpolate(answers))
+        .pipe(rename(function(file) {
+          file.basename = file.basename.replace('index', slug);
+        }))
+        .pipe(gulp.dest(path.resolve(testDir)));
+
+      mergeStream(srcStream, testStream)
+        .on('end', function() {
+          done();
+        });
+    })
+    .catch(function(err) {
+      console.error('Failed to generate component.');
+      console.error(err);
+    })
+});
 
 gulp.task('default', function(done) {
   var prompts = [
@@ -109,7 +201,7 @@ gulp.task('default', function(done) {
     sources.push(path.join(__dirname, 'templates', answers.type, '**/*'));
 
     gulp.src(sources)
-      .pipe(template(answers, { interpolate: /<%=([\s\S]+?)%>/g }))
+      .pipe(interpolate(answers))
       .pipe(rename(function(file) {
         if (file.basename[0] === '_') {
           file.basename = '.' + file.basename.slice(1);
