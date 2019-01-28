@@ -3,6 +3,12 @@ const { expect } = require('chai');
 const ExampleService = require('../../../src/services/example');
 
 describe('ExampleService', () => {
+  let instance;
+
+  beforeEach(() => {
+    instance = new ExampleService();
+  });
+
   describe('General', () => {
     it('should be importable', () => {
       expect(ExampleService).to.be.a('function');
