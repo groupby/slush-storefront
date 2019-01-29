@@ -5,7 +5,8 @@
   "scripts": {
     "start": "webpack-dev-server --watch",
     "build": "webpack -p --progress",
-    "test": "mocha --recursive --require babel-core/register --require ./test/unit/bootstrap.js ./test/unit"
+    "test": "mocha --recursive --require babel-core/register --require ./test/unit/bootstrap.js ./test/unit",
+    "generate:component": "slush storefront:component"
   },
   "author": "",
   "license": "MIT",
