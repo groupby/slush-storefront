@@ -1,19 +1,29 @@
 const {
+  ROOT_DIR,
   createGenerator,
   fs,
   gulp,
   inquirer,
   interpolate,
   mergeStream,
+  mkdirsSync,
   pascalToKebab,
   path,
+  pkgDir,
   rename,
 } = require('../../utils');
 
 const defaults = {
-  srcPath: 'src/tags/components',
-  testPath: 'test/unit/tags/components',
+  srcRoot: 'src',
+  testRoot: 'test/unit',
 };
+
+const mapArgsToAnswers = ([name, srcPath = ''], { srcRoot = defaults.srcRoot }) => ({
+  name,
+  srcPath,
+  srcRoot,
+  moveon: true,
+});
 
 const prompts = [
   {
@@ -21,15 +31,13 @@ const prompts = [
     message: 'What is your component called?',
   },
   {
-
-    name: 'srcPath',
-    message: 'Provide the path to the directory where the component will be added:',
-    default: defaults.srcPath,
+    name: 'srcRoot',
+    message: 'Provide the path to the root of the project source code:',
+    default: defaults.srcRoot,
   },
   {
-    name: 'testPath',
-    message: 'Provide the path to the directory where the component tests will be added:',
-    default: defaults.testPath,
+    name: 'srcPath',
+    message: 'Provide the path to the directory where the component will be created:',
   },
   {
     type: 'confirm',
@@ -38,7 +46,7 @@ const prompts = [
   },
 ];
 
-const callback = (answers) => {
+const callback = (answers, done) => {
   if (!answers.moveon) {
     return done();
   }
@@ -49,22 +57,22 @@ const callback = (answers) => {
   answers.slug = slug;
   answers.sanitizedName = sanitizedName;
 
-  // Handle src path and files.
-  const srcDir = `${answers.srcPath}/${slug}`;
-  if (!fs.existsSync(srcDir)) {
-    fs.mkdirSync(srcDir);
+  // Compute and validate src and test dirs.
+  const srcDir = path.join(ROOT_DIR, answers.srcRoot, answers.srcPath, slug);
+  const testDir = path.join(ROOT_DIR, defaults.testRoot, answers.srcPath, slug);
+
+  if (fs.existsSync(srcDir) || fs.existsSync(testDir)) {
+    done('Please ensure that the component-specific folder do not exist within the source or test directories');
   }
+
+  mkdirsSync(srcDir);
+  mkdirsSync(testDir);
+
   const srcFiles = [
     `${__dirname}/../../templates/component/src/index.js`,
     `${__dirname}/../../templates/component/src/index.html`,
     `${__dirname}/../../templates/component/src/index.scss`,
   ];
-
-  // Handle test path and files.
-  const testDir = `${answers.testPath}/${slug}`;
-  if (!fs.existsSync(testDir)) {
-    fs.mkdirSync(testDir);
-  }
   const testFiles = [
     `${__dirname}/../../templates/component/test/index.test.js`,
   ];
@@ -93,9 +101,9 @@ const callback = (answers) => {
     });
 };
 
-
 module.exports = {
   prompts,
   callback,
-  generate: createGenerator({ prompts, callback }),
+  generate: createGenerator({ prompts, callback, mapArgsToAnswers }),
+  mapArgsToAnswers,
 };

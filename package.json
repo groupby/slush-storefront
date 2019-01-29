@@ -50,6 +50,9 @@
     "gulp-template": "^4.0.0",
     "iniparser": "^1.0.5",
     "inquirer": "^3.0.0",
+    "meow": "^5.0.0",
+    "merge-stream": "^1.0.1",
+    "pkg-dir": "^3.0.0",
     "slush": ">=1.0.0",
     "underscore.string": "^3.3.4"
   },
@@ -58,7 +61,6 @@
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.16.0",
     "eslint-config-tough": "^0.4.0",
-    "merge-stream": "^1.0.1",
     "re-start": "^1.8.6",
     "start-simple-cli": "^4.1.1"
   }

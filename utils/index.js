@@ -4,12 +4,15 @@ const fs = require('fs');
 const gulp = require('gulp');
 const inquirer = require('inquirer');
 const install = require('gulp-install');
+const meow = require('meow');
 const mergeStream = require('merge-stream');
 const path = require('path');
+const pkgDir = require('pkg-dir');
 const rename = require('gulp-rename');
 const template = require('gulp-template');
 
 const INTERPOLATION_PATTERN = /<%=([\s\S]+?)%>/g;
+const ROOT_DIR = pkgDir.sync(process.cwd());
 
 /**
  * Given an options object, return a slush generator function.
@@ -19,18 +22,20 @@ const INTERPOLATION_PATTERN = /<%=([\s\S]+?)%>/g;
  */
 const createGenerator = (opts) => {
   const {
-    prompts,
     callback,
-    onError = (err) => {
-      console.error('Whoops, something went wrong!');
-      console.error(err);
-    },
+    prompts,
+    mapArgsToAnswers = (args) => args,
+    onError = (err, done) => done(err),
   } = opts;
 
-  return (done) => {
-    inquirer.prompt(prompts)
-      .then(callback)
-      .catch(onError);
+  return (args = [], flags = {}) => (done) => {
+    const proc = args && args.length
+      ? Promise.resolve(mapArgsToAnswers(args, flags))
+      : inquirer.prompt(prompts);
+
+    return proc
+      .then((answers) => callback(answers, done))
+      .catch((err) => onError(err, done));
   };
 };
 
@@ -51,9 +56,20 @@ const pascalToKebab = (str) => {
   return str.replace(/[A-z][A-Z]/g, (letters) => letters.split('').join('-')).toLowerCase();
 };
 
+const mkdirsSync = (dirPath = '') => dirPath.split('/')
+  .filter(segment => !!segment)
+  .reduce((dirPath, segment) => {
+    let p = path.join(dirPath, segment);
+    if (!fs.existsSync(p)) {
+      fs.mkdirSync(p);
+    }
+    return p;
+  }, '');
+
 module.exports = {
   _,
   INTERPOLATION_PATTERN,
+  ROOT_DIR,
   createGenerator,
   conflict,
   fs,
@@ -61,8 +77,11 @@ module.exports = {
   inquirer,
   install,
   interpolate,
+  meow,
   mergeStream,
+  mkdirsSync,
   pascalToKebab,
   path,
+  pkgDir,
   rename,
 };

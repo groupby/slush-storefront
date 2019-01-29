@@ -15,12 +15,24 @@ var {
   inquirer,
   install,
   interpolate,
+  meow,
   path,
   rename,
 } = require('./utils');
 var { generateComponent } = require('./tasks');
 
-gulp.task('component', generateComponent);
+var cli = meow('', {
+  flags: {
+    'src': {
+      type: 'string',
+      alias: 's',
+    },
+  },
+});
+
+// Since the 0th argument is the command name (ie. 'storefront:component'),
+// we can omit it from the component-specific function call.
+gulp.task('component', generateComponent(cli.input.slice(1), cli.flags));
 
 gulp.task('default', function(done) {
   var prompts = [
