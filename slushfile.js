@@ -8,14 +8,16 @@
 
 /* eslint-disable no-var,prefer-arrow-callback,array-bracket-spacing,no-magic-numbers,prefer-template,immutable/no-mutation,object-shorthand */
 
-var path = require('path');
-var gulp = require('gulp');
-var conflict = require('gulp-conflict');
-var rename = require('gulp-rename');
-var install = require('gulp-install');
-var _ = require('underscore.string');
-var inquirer = require('inquirer');
-var utils = require('./utils');
+var {
+  _,
+  conflict,
+  gulp,
+  inquirer,
+  install,
+  interpolate,
+  path,
+  rename,
+} = require('./utils');
 var { generateComponent } = require('./tasks');
 
 gulp.task('component', generateComponent);
@@ -112,7 +114,7 @@ gulp.task('default', function(done) {
     sources.push(path.join(__dirname, 'templates', answers.type, '**/*'));
 
     gulp.src(sources)
-      .pipe(utils.interpolate(answers))
+      .pipe(interpolate(answers))
       .pipe(rename(function(file) {
         if (file.basename[0] === '_') {
           file.basename = '.' + file.basename.slice(1);

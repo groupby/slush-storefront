@@ -1,6 +1,9 @@
+const _ = require('underscore.string');
+const conflict = require('gulp-conflict');
 const fs = require('fs');
 const gulp = require('gulp');
 const inquirer = require('inquirer');
+const install = require('gulp-install');
 const mergeStream = require('merge-stream');
 const path = require('path');
 const rename = require('gulp-rename');
@@ -49,11 +52,14 @@ const pascalToKebab = (str) => {
 };
 
 module.exports = {
+  _,
   INTERPOLATION_PATTERN,
   createGenerator,
+  conflict,
   fs,
   gulp,
   inquirer,
+  install,
   interpolate,
   mergeStream,
   pascalToKebab,
