@@ -56,6 +56,12 @@ const pascalToKebab = (str) => {
   return str.replace(/[A-z][A-Z]/g, (letters) => letters.split('').join('-')).toLowerCase();
 };
 
+/**
+ * Create each directory within a given path.
+ *
+ * @param {string} dirPath
+ * @return {string}
+ */
 const mkdirsSync = (dirPath = '') => dirPath.split('/')
   .filter(segment => !!segment)
   .reduce((dirPath, segment) => {
