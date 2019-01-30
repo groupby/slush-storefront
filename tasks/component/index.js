@@ -83,22 +83,20 @@ const callback = (answers, done) => {
   // Define streams, merge, and exit.
   const srcStream = gulp.src(srcFiles)
     .pipe(interpolate(answers))
-    .pipe(rename(function(file) {
+    .pipe(rename((file) => {
       file.basename = slug;
     }))
     .pipe(gulp.dest(path.resolve(srcDir)));
 
   const testStream = gulp.src(testFiles)
     .pipe(interpolate(answers))
-    .pipe(rename(function(file) {
+    .pipe(rename((file) => {
       file.basename = file.basename.replace('index', slug);
     }))
     .pipe(gulp.dest(path.resolve(testDir)));
 
   mergeStream(srcStream, testStream)
-    .on('end', function() {
-      done();
-    });
+    .on('end', () => done());
 };
 
 module.exports = {
