@@ -34,11 +34,52 @@ describe('<%= sanitizedName %>', () => {
   });
 
   describe('Lifecycle methods', () => {
-    describe('lifecycleMethod()', () => {
-      // Make assertions about the lifecycle method under test.
-      // For example:
-      // const instance = new <%= sanitizedName %>();
-      // instance.onUpdate();
+    describe('onBeforeMount()', () => {
+      it('should be a function', () => {
+        expect(instance.onBeforeMount).to.be.a('function');
+      });
+
+      // Make additional assertions here!
+    });
+
+    describe('onMount()', () => {
+      it('should be a function', () => {
+        expect(instance.onMount).to.be.a('function');
+      });
+
+      // Make additional assertions here!
+    });
+
+    describe('onUpdate()', () => {
+      it('should be a function', () => {
+        expect(instance.onUpdate).to.be.a('function');
+      });
+
+      // Make additional assertions here!
+    });
+
+    describe('onUpdated()', () => {
+      it('should be a function', () => {
+        expect(instance.onUpdated).to.be.a('function');
+      });
+
+      // Make additional assertions here!
+    });
+
+    describe('onBeforeUnmount()', () => {
+      it('should be a function', () => {
+        expect(instance.onBeforeUnmount).to.be.a('function');
+      });
+
+      // Make additional assertions here!
+    });
+
+    describe('onUnmount()', () => {
+      it('should be a function', () => {
+        expect(instance.onUnmount).to.be.a('function');
+      });
+
+      // Make additional assertions here!
     });
   });
 
