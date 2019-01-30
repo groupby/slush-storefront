@@ -1,6 +1,6 @@
 import { tag } from '@storefront/core';
 
-@tag('<%= slug %>', require('./<%= slug %>.html'), require('./<%= slug %>.html'))
+@tag('<%= slug %>', require('./<%= slug %>.html'), require('./<%= slug %>.scss'))
 export class <%= sanitizedName %> {
 
 }
