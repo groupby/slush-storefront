@@ -62,7 +62,7 @@ const callback = (answers, done) => {
   const testDir = path.join(ROOT_DIR, defaults.testRoot, answers.srcPath, slug);
 
   if (fs.existsSync(srcDir) || fs.existsSync(testDir)) {
-    done('Please ensure that the component-specific folder do not exist within the source or test directories');
+    done('Please ensure that the component-specific folders do not exist within the source or test directories');
   }
 
   mkdirsSync(srcDir);
