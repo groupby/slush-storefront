@@ -5,4 +5,4 @@ export class <%= sanitizedName %> {
 
 }
 
-export default <%= sanitizedName %>
+export default <%= sanitizedName %>;
