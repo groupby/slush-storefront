@@ -53,7 +53,17 @@ const interpolate = (data) => template(data, { interpolate: INTERPOLATION_PATTER
  * @return {string}
  */
 const pascalToKebab = (str) => {
-  return str.replace(/[A-z][A-Z]/g, (letters) => letters.split('').join('-')).toLowerCase();
+  let pattern = /[A-z][A-Z]/gm
+  let matches;
+  let output = str;
+
+  while (matches = pattern.exec(output)) {
+    let [letters] = matches;
+    let replacement = letters.split('').join('-').toLowerCase();
+    output = output.replace(letters, replacement);
+  }
+
+  return output.toLowerCase();
 };
 
 /**
