@@ -15,13 +15,24 @@ const {
 
 const defaults = {
   srcRoot: 'src',
+  srcPath: 'tags/components',
   testRoot: 'test/unit',
 };
 
-const mapArgsToAnswers = ([name, srcPath = ''], { srcRoot = defaults.srcRoot }) => ({
+const mapArgsToAnswers = (
+  [name, componentSrcPath = ''],
+  {
+    srcRoot = defaults.srcRoot,
+    srcPath = defaults.srcPath,
+    testRoot = defaults.testRoot,
+    testPath = defaults.srcPath,
+  }
+) => ({
   name,
-  srcPath,
   srcRoot,
+  srcPath: componentSrcPath || srcPath,
+  testRoot,
+  testPath,
   moveon: true,
 });
 
@@ -38,6 +49,17 @@ const prompts = [
   {
     name: 'srcPath',
     message: 'Provide the path to the directory where the component will be created:',
+    default: defaults.srcPath,
+  },
+  {
+    name: 'testRoot',
+    message: 'Provide the path to the root of the project test code:',
+    default: defaults.testRoot,
+  },
+  {
+    name: 'testPath',
+    message: 'Provide the path to the directory where the component tests will be created:',
+    default: defaults.srcPath,
   },
   {
     type: 'confirm',
@@ -59,7 +81,7 @@ const callback = (answers, done) => {
 
   // Compute and validate src and test dirs.
   const srcDir = path.join(ROOT_DIR, answers.srcRoot, answers.srcPath, slug);
-  const testDir = path.join(ROOT_DIR, defaults.testRoot, answers.srcPath, slug);
+  const testDir = path.join(ROOT_DIR, answers.testRoot, answers.testPath, slug);
 
   if (fs.existsSync(srcDir) || fs.existsSync(testDir)) {
     done('Please ensure that the component-specific folders do not exist within the source or test directories');
