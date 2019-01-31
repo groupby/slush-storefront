@@ -23,7 +23,7 @@ var { generateComponent } = require('./tasks');
 
 var cli = meow('', {
   flags: {
-    'src': {
+    'srcRoot': {
       type: 'string',
       alias: 's',
     },
