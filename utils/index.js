@@ -76,11 +76,13 @@ const mkdirsSync = (dirPath = '') => dirPath.split('/')
   .filter(segment => !!segment)
   .reduce((dirPath, segment) => {
     let p = path.join(dirPath, segment);
+
     if (!fs.existsSync(p)) {
       fs.mkdirSync(p);
     }
+
     return p;
-  }, '');
+  }, '/');
 
 module.exports = {
   _,
