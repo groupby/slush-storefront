@@ -73,9 +73,9 @@ const pascalToKebab = (str) => {
  * @return {string}
  */
 const mkdirsSync = (dirPath = '') => dirPath.split('/')
-  .filter(segment => !!segment)
+  .filter((segment) => !!segment)
   .reduce((dirPath, segment) => {
-    let p = path.join(dirPath, segment);
+    const p = path.join(dirPath, segment);
 
     if (!fs.existsSync(p)) {
       fs.mkdirSync(p);
