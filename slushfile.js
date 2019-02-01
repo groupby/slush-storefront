@@ -8,14 +8,31 @@
 
 /* eslint-disable no-var,prefer-arrow-callback,array-bracket-spacing,no-magic-numbers,prefer-template,immutable/no-mutation,object-shorthand */
 
-var path = require('path');
-var gulp = require('gulp');
-var conflict = require('gulp-conflict');
-var template = require('gulp-template');
-var rename = require('gulp-rename');
-var install = require('gulp-install');
-var _ = require('underscore.string');
-var inquirer = require('inquirer');
+var {
+  _,
+  conflict,
+  gulp,
+  inquirer,
+  install,
+  interpolate,
+  meow,
+  path,
+  rename,
+} = require('./utils');
+var { generateComponent } = require('./tasks');
+
+var cli = meow('', {
+  flags: {
+    'srcRoot': {
+      type: 'string',
+      alias: 's',
+    },
+  },
+});
+
+// Since the 0th argument is the command name (ie. 'storefront:component'),
+// we can omit it from the component-specific function call.
+gulp.task('component', generateComponent(cli.input.slice(1), cli.flags));
 
 gulp.task('default', function(done) {
   var prompts = [
@@ -109,7 +126,7 @@ gulp.task('default', function(done) {
     sources.push(path.join(__dirname, 'templates', answers.type, '**/*'));
 
     gulp.src(sources)
-      .pipe(template(answers, { interpolate: /<%=([\s\S]+?)%>/g }))
+      .pipe(interpolate(answers))
       .pipe(rename(function(file) {
         if (file.basename[0] === '_') {
           file.basename = '.' + file.basename.slice(1);

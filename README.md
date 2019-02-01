@@ -26,7 +26,16 @@ Install `slush-storefront` globally:
 $ npm install -g slush-storefront
 ```
 
-### Usage
+## Usage
+
+This generator may be used to create any of the following StoreFront artifacts:
+
+| Type      | Command                      | Supports Prompts | Supports CLI |
+| :------   | :----------------------------| :--------------- | :----------- |
+| project   | `slush storefront`           | Y                | N            |
+| component | `slush storefront:component` | Y                | Y            |
+
+### Generating StoreFront Projects
 
 Create a new folder for your project:
 
@@ -39,6 +48,38 @@ Run the generator from within the new folder:
 ```bash
 $ cd my-storefront && slush storefront
 ```
+
+### Generating StoreFront Components
+
+#### via Prompts
+
+To generate a component by answering a series of questions, execute the following:
+
+```
+slush storefront:component
+```
+
+#### via CLI
+
+To generate a component directly from the command line, execute the following:
+
+```
+slush storefront:component <ComponentName> <path/to/components/directory>
+```
+
+When generating the component's definition and test files, the path argument is implicitly relative to the project's source code and test code directories (by default, these are assumed to be `src/` and `test/unit`). The following flags may be used to override these defaults:
+
+```
+# Include the --srcRoot flag to overwrite the default source code directory.
+slush storefront:component <ComponentName> <path/to/components/directory> --srcRoot <path/to/src/root>
+```
+
+```
+# Include the --testRoot flag to overwrite the default test directory.
+slush storefront:component <ComponentName> <path/to/components/directory> --testRoot <path/to/test/root>
+```
+
+Please note that using non-default values for the source or test directories will require an update to the project's Webpack configuration file.
 
 ## Getting To Know Slush
 

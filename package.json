@@ -43,6 +43,7 @@
     }
   },
   "dependencies": {
+    "case": "^1.6.1",
     "gulp": "^3.6.2",
     "gulp-conflict": "^0.4.0",
     "gulp-install": "^1.1.0",
@@ -50,6 +51,9 @@
     "gulp-template": "^4.0.0",
     "iniparser": "^1.0.5",
     "inquirer": "^3.0.0",
+    "meow": "^5.0.0",
+    "merge-stream": "^1.0.1",
+    "pkg-dir": "^3.0.0",
     "slush": ">=1.0.0",
     "underscore.string": "^3.3.4"
   },
