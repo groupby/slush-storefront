@@ -70,12 +70,12 @@ slush storefront:component <ComponentName> <path/to/components/directory>
 When generating the component's definition and test files, the path argument is implicitly relative to the project's source code and test code directories (by default, these are assumed to be `src/` and `test/unit`). The following flags may be used to override these defaults:
 
 ```
-// Include the --srcRoot flag to overwrite the default source code directory.
+# Include the --srcRoot flag to overwrite the default source code directory.
 slush storefront:component <ComponentName> <path/to/components/directory> --srcRoot <path/to/src/root>
 ```
 
 ```
-// Include the --testRoot flag to overwrite the default test directory.
+# Include the --testRoot flag to overwrite the default test directory.
 slush storefront:component <ComponentName> <path/to/components/directory> --testRoot <path/to/test/root>
 ```
 
