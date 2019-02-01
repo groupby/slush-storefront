@@ -34,6 +34,14 @@ describe('<%= sanitizedName %>', () => {
   });
 
   describe('Lifecycle methods', () => {
+    describe('init()', () => {
+      it('should be a function', () => {
+        expect(instance.init).to.be.a('function');
+      });
+
+      // Make additional assertions here!
+    });
+
     describe('onBeforeMount()', () => {
       it('should be a function', () => {
         expect(instance.onBeforeMount).to.be.a('function');
