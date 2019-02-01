@@ -32,7 +32,7 @@ const mapArgsToAnswers = (
   srcRoot,
   srcPath: componentSrcPath || srcPath,
   testRoot,
-  testPath,
+  testPath: componentSrcPath || testPath,
   moveon: true,
 });
 
