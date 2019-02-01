@@ -79,6 +79,8 @@ slush storefront:component <ComponentName> <path/to/components/directory> --srcR
 slush storefront:component <ComponentName> <path/to/components/directory> --testRoot <path/to/test/root>
 ```
 
+Please note that using non-default values for the source or test directories will require an update to the project's Webpack configuration file.
+
 ## Getting To Know Slush
 
 Slush is a tool that uses Gulp for project scaffolding.
