@@ -15,7 +15,7 @@ const {
 
 const defaults = {
   srcRoot: 'src',
-  srcPath: 'tags/components',
+  srcPath: 'tags',
   testRoot: 'test/unit',
 };
 
