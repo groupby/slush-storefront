@@ -10,11 +10,11 @@ export class <%= sanitizedName %> {
 
   }
 
-  onUpdate() {
+  onUpdate(props, state, data) {
 
   }
 
-  onUpdated() {
+  onUpdated(props, state) {
 
   }
 
