@@ -1,5 +1,6 @@
 const {
   ROOT_DIR,
+  Case,
   createGenerator,
   fs,
   gulp,
@@ -7,7 +8,6 @@ const {
   interpolate,
   mergeStream,
   mkdirsSync,
-  pascalToKebab,
   path,
   pkgDir,
   rename,
@@ -75,7 +75,7 @@ const callback = (answers, done) => {
 
   // Handle name.
   const sanitizedName = answers.name.replace(/\s+/g, '');
-  const slug = pascalToKebab(sanitizedName);
+  const slug = Case.kebab(sanitizedName);
   answers.slug = slug;
   answers.sanitizedName = sanitizedName;
 

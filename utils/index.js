@@ -1,4 +1,5 @@
 const _ = require('underscore.string');
+const Case = require('case');
 const conflict = require('gulp-conflict');
 const fs = require('fs');
 const gulp = require('gulp');
@@ -47,26 +48,6 @@ const createGenerator = (opts) => {
 const interpolate = (data) => template(data, { interpolate: INTERPOLATION_PATTERN });
 
 /**
- * Given a pascal case string, convert it to kebab case.
- *
- * @param {string} str
- * @return {string}
- */
-const pascalToKebab = (str) => {
-  let pattern = /[A-z][A-Z]/gm
-  let matches;
-  let output = str;
-
-  while (matches = pattern.exec(output)) {
-    let [letters] = matches;
-    let replacement = letters.split('').join('-').toLowerCase();
-    output = output.replace(letters, replacement);
-  }
-
-  return output.toLowerCase();
-};
-
-/**
  * Create each directory within a given path.
  *
  * @param {string} dirPath
@@ -88,6 +69,7 @@ module.exports = {
   _,
   INTERPOLATION_PATTERN,
   ROOT_DIR,
+  Case,
   createGenerator,
   conflict,
   fs,
@@ -98,7 +80,6 @@ module.exports = {
   meow,
   mergeStream,
   mkdirsSync,
-  pascalToKebab,
   path,
   pkgDir,
   rename,
