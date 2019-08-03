@@ -62,7 +62,7 @@
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.16.0",
     "eslint-config-tough": "^0.4.0",
-    "re-start": "^1.8.6",
+    "re-start": "^1.14.8",
     "start-simple-cli": "^4.1.1"
   }
 }
